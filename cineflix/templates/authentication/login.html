@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block section %}
+
+<section id="create-movie" class="py-5 my-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+
+        <div class="card shadow-lg border-0 rounded-4">
+          <div class="card-header bg-primary text-white text-center py-3">
+            <h3 class="mb-0">Login</h3>
+          </div>
+
+          <div class="card-body p-4">
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              <!-- Email -->
+              <div class="mb-3">
+                <label class="form-label fw-bold">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <p class="text-danger small">{{ form.email.errors.0 }}</p>
+                {% endif %}
+              </div>
+
+              <!-- Password -->
+              <div class="mb-3">
+                <label class="form-label fw-bold">Password</label>
+
+                <div class="position-relative">
+                  {{ form.password }}
+
+                  <!-- 👁 Password Toggle -->
+                  <i class="bi bi-eye-slash position-absolute top-50 end-0 translate-middle-y pe-3"
+                     style="cursor:pointer;font-size:18px;"
+                     onclick="
+                      let p=document.getElementById('{{ form.password.id_for_label }}');
+                      p.type = p.type==='password' ? 'text':'password';
+                      this.classList.toggle('bi-eye');
+                      this.classList.toggle('bi-eye-slash');
+                     "></i>
+                </div>
+
+                {% if form.password.errors %}
+                <p class="text-danger small">{{ form.password.errors.0 }}</p>
+                {% endif %}
+              </div>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-end mt-4 btn-wrap">
+                <button type="submit" class="btn btn-outline-accent btn-accent-arrow">
+                  Login <i class="icon icon-ns-arrow-right"></i>
+                </button>
+              </div>
+
+              {% if error %}
+              <p class="text-danger text-center small">{{ error }}</p>
+              {% endif %}
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
