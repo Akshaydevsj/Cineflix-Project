@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block section %}
+
+<div class="container py-5">
+    <h2 class="text-center mb-4" style="color:#e50914;">Edit {{ page }}</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-dark text-white text-center py-3">
+                    <h4 class="mb-0">Edit Subscription Plan</h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Error Messages -->
+                        {% if form.errors %}
+                        <div class="alert alert-danger">
+                            {{ form.errors }}
+                        </div>
+                        {% endif %}
+
+                        <!-- Name -->
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Plan Name</strong></label>
+                            {{ form.name }}
+                        </div>
+
+                        <!-- Amount -->
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Amount (₹)</strong></label>
+                            {{ form.amount }}
+                        </div>
+
+                        <!-- Devices -->
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Supported Devices</strong></label>
+                            {{ form.devices }}
+                            <small class="text-muted d-block">Hold CTRL to select multiple devices</small>
+                        </div>
+
+                        <!-- Quality -->
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Quality</strong></label>
+                            {{ form.quality }}
+                        </div>
+
+                        <!-- Screens -->
+                        <div class="mb-3">
+                            <label class="form-label"><strong>No. of Screens</strong></label>
+                            {{ form.no_of_screens }}
+                        </div>
+
+                        <!-- Download Services -->
+                        <div class="mb-3">
+                            <label class="form-label"><strong>No. of Downloads</strong></label>
+                            {{ form.download_services }}
+                        </div>
+
+                        <!-- Update Button -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-dark px-5 py-2 rounded-3">
+                                Update Plan
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

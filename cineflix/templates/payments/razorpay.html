@@ -1,0 +1,65 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    var options = {
+        key: "{{ RZP_CLIENT_ID }}",
+        amount: "{{ amount }}",          // amount in paise
+        currency: "INR",
+        name: "CineFlix",
+        description: "Payments Made Easy",
+        order_id: "{{ order_id }}",
+
+        // ✅ Success handler
+        handler: function (response) {
+
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "{% url 'payment-verify' %}";
+
+            // CSRF Token
+            var csrfInput = document.createElement("input");
+            csrfInput.type = "hidden";
+            csrfInput.name = "csrfmiddlewaretoken";
+            csrfInput.value = "{{ csrf_token }}";
+            form.appendChild(csrfInput);
+
+            // Razorpay response fields
+            var fields = [
+                "razorpay_payment_id",
+                "razorpay_order_id",
+                "razorpay_signature"
+            ];
+
+            fields.forEach(function (field) {
+                var input = document.createElement("input");
+                input.type = "hidden";
+                input.name = field;
+                input.value = response[field];
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+
+        // ❌ Cancel / Close handler
+        modal: {
+            ondismiss: function () {
+                // Redirect to subscription list page
+                window.location.href = "{% url 'subscription-list' %}";
+            }
+        },
+
+        theme: {
+            color: "#e50914"
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+    // Prevent accidental page reload
+    window.onbeforeunload = function () {
+        return "Payment is in progress. Are you sure you want to leave?";
+    };
+</script>
